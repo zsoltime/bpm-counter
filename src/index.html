@@ -6,6 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0"
     />
+    <meta name="theme-color" content="#393939" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>BPM Counter</title>
     <style>
@@ -14,11 +15,16 @@
       }
 
       :root {
-        --dark-bg-color: #393939;
+        --black: #393939;
+        --blue: #00c5de;
+        --green: #55bba7;
+        --red: #f74e59;
+        --dark-bg-color: var(--black);
         --transition-timing: 0.1s ease-in-out;
-        --font-color: #393939;
+        --font-color: var(--black);
         --main-bg-color: #fada65;
-        --taps-bg-color: #f74e59;
+        --button-border-color: var(--blue);
+        --taps-bg-color: var(--blue);
       }
 
       html {
@@ -34,6 +40,12 @@
         font-weight: 300;
         line-height: 1;
         margin: 0;
+      }
+
+      button {
+        font-family: inherit;
+        font-weight: inherit;
+        line-height: inherit;
       }
 
       p {
@@ -98,12 +110,13 @@
         overflow: visible;
         position: relative;
         text-align: center;
-        transition: transform var(--transition-timing);
+        transition: box-shadow var(--transition-timing),
+          transform var(--transition-timing);
         width: 240px;
       }
 
       .bpm:focus {
-        box-shadow: 0 0 0 0.25rem var(--taps-bg-color);
+        box-shadow: 0 0 0 0.25rem var(--button-border-color);
         outline: none;
       }
 
@@ -140,6 +153,14 @@
 
       .bpm--tapped .bpm__text {
         transform: translateY(2.65rem);
+      }
+
+      .visuallyhidden {
+        clip: rect(1px, 1px, 1px, 1px);
+        height: 1px;
+        overflow: hidden;
+        position: absolute !important;
+        width: 1px;
       }
 
       @media screen and (min-width: 320px) {
@@ -226,10 +247,11 @@
       <section class="counter">
         <button id="btn" class="bpm" type="button">
           <span id="avg">0</span>
+          <div class="bpm__text">beats / minute</div>
           <div class="bpm__taps">
             <span id="taps">0</span>
+            <span class="visuallyhidden">taps</span>
           </div>
-          <div class="bpm__text">beats / minute</div>
         </button>
       </section>
     </main>
