@@ -87,6 +87,7 @@
       .bpm {
         align-items: center;
         background-color: var(--dark-bg-color);
+        border: 0;
         border-radius: 50%;
         color: #fff;
         display: flex;
@@ -99,6 +100,11 @@
         text-align: center;
         transition: transform var(--transition-timing);
         width: 240px;
+      }
+
+      .bpm:focus {
+        box-shadow: 0 0 0 0.25rem var(--taps-bg-color);
+        outline: none;
       }
 
       .bpm__taps {
@@ -218,13 +224,13 @@
     </header>
     <main>
       <section class="counter">
-        <div class="bpm">
+        <button id="btn" class="bpm" type="button">
           <span id="avg">0</span>
           <div class="bpm__taps">
             <span id="taps">0</span>
           </div>
           <div class="bpm__text">beats / minute</div>
-        </div>
+        </button>
       </section>
     </main>
     <footer>
@@ -246,11 +252,13 @@
         const init = () => {
           cacheDOM();
           bindEvents();
+          dom.btn.focus();
         };
 
         const cacheDOM = () => {
           dom.avg = document.getElementById('avg');
           dom.bpm = document.querySelector('.bpm');
+          dom.btn = document.getElementById('btn');
           dom.taps = document.getElementById('taps');
         };
 
@@ -258,8 +266,7 @@
           dom.bpm.addEventListener('transitionend', () => {
             dom.bpm.classList.remove('bpm--tapped');
           });
-          document.addEventListener('keypress', calculateBPM);
-          document.addEventListener('touchstart', calculateBPM);
+          dom.btn.addEventListener('click', calculateBPM);
         };
 
         const resetCounter = () => {
