@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>BPM Counter</title>
+    <style>
+      * {
+        box-sizing: inherit;
+      }
+
+      :root {
+        --dark-bg-color: #393939;
+        --transition-timing: 0.1s ease-in-out;
+        --font-color: #393939;
+        --main-bg-color: #fada65;
+        --taps-bg-color: #f74e59;
+      }
+
+      html {
+        font-size: 100%;
+      }
+
+      body {
+        box-sizing: border-box;
+        color: var(--font-color);
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',
+          Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
+          'Helvetica Neue', sans-serif;
+        font-weight: 300;
+        line-height: 1;
+        margin: 0;
+      }
+
+      p {
+        margin: 0;
+      }
+
+      header {
+        background-color: var(--dark-bg-color);
+        color: #fff;
+        padding: 1rem;
+      }
+
+      .logo {
+        align-items: center;
+        display: flex;
+        font-size: 2rem;
+        font-weight: 300;
+        margin: 0;
+        justify-content: center;
+        word-spacing: -0.5rem;
+      }
+
+      .logo svg {
+        fill: currentColor;
+        height: 2rem;
+        margin-right: 0.5rem;
+        width: 2rem;
+      }
+
+      footer {
+        background-color: var(--dark-bg-color);
+        color: #fff;
+        padding: 0.5rem 1rem;
+        text-align: center;
+      }
+
+      .copyright {
+        font-size: 0.75rem;
+      }
+
+      .counter {
+        align-items: center;
+        background-color: var(--main-bg-color);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-height: calc(100vh - 4rem - 1.75rem);
+        padding: 1rem;
+      }
+
+      .bpm {
+        align-items: center;
+        background-color: var(--dark-bg-color);
+        border-radius: 50%;
+        color: #fff;
+        display: flex;
+        font-size: 4rem;
+        font-weight: 100;
+        height: 240px;
+        justify-content: center;
+        overflow: visible;
+        position: relative;
+        text-align: center;
+        transition: transform var(--transition-timing);
+        width: 240px;
+      }
+
+      .bpm__taps {
+        align-items: center;
+        background-color: var(--taps-bg-color);
+        border-radius: 50%;
+        display: flex;
+        font-size: 1.5rem;
+        height: 60px;
+        justify-content: center;
+        position: absolute;
+        right: 0;
+        top: 0;
+        transition: transform var(--transition-timing);
+        width: 60px;
+      }
+
+      .bpm__text {
+        font-size: 0.825rem;
+        position: absolute;
+        transform: translateY(2.5rem);
+        transition: transform var(--transition-timing);
+        word-spacing: -2px;
+      }
+
+      .bpm--tapped {
+        transform: scale(1.05);
+      }
+
+      .bpm--tapped .bpm__taps {
+        transform: scale(1.25);
+      }
+
+      .bpm--tapped .bpm__text {
+        transform: translateY(2.65rem);
+      }
+
+      @media screen and (min-width: 320px) {
+        html {
+          font-size: calc(1rem + 8 * ((100vw - 320px) / 880));
+        }
+
+        .bpm {
+          /* calc([min size] + ([max size] - [min size]) * ((100vw - [min viewport width]) / ([max viewport width] - [min viewport width]))); */
+          height: calc(240px + 80 * ((100vw - 320px) / 880));
+          width: calc(240px + 80 * ((100vw - 320px) / 880));
+        }
+
+        .bpm__taps {
+          height: calc(60px + 30 * ((100vw - 320px) / 880));
+          width: calc(60px + 30 * ((100vw - 320px) / 880));
+        }
+      }
+
+      @media screen and (min-width: 1200px) {
+        html {
+          font-size: 1.5rem;
+        }
+
+        .bpm {
+          height: 360px;
+          width: 360px;
+        }
+
+        .bpm__taps {
+          height: 90px;
+          width: 90px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1 class="logo">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="32px"
+          viewBox="0 -47 354.98667 354"
+          width="32px"
+        >
+          <path
+            d="m6.828125 102.894531c-3.773437 0-6.828125 3.054688-6.828125 6.824219v34.132812c0 3.773438 3.054688 6.828126 6.828125 6.828126 3.769531 0 6.824219-3.054688 6.824219-6.828126v-34.132812c0-3.769531-3.054688-6.824219-6.824219-6.824219zm0 0"
+          />
+          <path
+            d="m40.984375 74.941406c-3.769531 0-6.828125 3.058594-6.828125 6.828125v94.515625c0 3.773438 3.058594 6.828125 6.828125 6.828125s6.828125-3.054687 6.828125-6.828125v-94.515625c0-3.769531-3.058594-6.828125-6.828125-6.828125zm0 0"
+          />
+          <path
+            d="m75.09375 27.800781c-3.769531 0-6.828125 3.054688-6.828125 6.824219v191.148438c0 3.769531 3.058594 6.828124 6.828125 6.828124s6.828125-3.058593 6.828125-6.828124v-191.148438c0-3.769531-3.058594-6.824219-6.828125-6.824219zm0 0"
+          />
+          <path
+            d="m109.226562 61.933594c-3.769531 0-6.828124 3.054687-6.828124 6.828125v116.050781c0 3.769531 3.058593 6.828125 6.828124 6.828125 3.769532 0 6.828126-3.058594 6.828126-6.828125v-116.050781c0-3.773438-3.058594-6.828125-6.828126-6.828125zm0 0"
+          />
+          <path
+            d="m212.292969 45.40625c-3.769531 0-6.824219 3.054688-6.824219 6.828125v153.589844c0 3.769531 3.054688 6.824219 6.824219 6.824219s6.828125-3.054688 6.828125-6.824219v-153.589844c0-3.773437-3.058594-6.828125-6.828125-6.828125zm0 0"
+          />
+          <path
+            d="m279.894531 55.105469c-3.769531 0-6.828125 3.058593-6.828125 6.828125v136.53125c0 3.773437 3.058594 6.828125 6.828125 6.828125s6.824219-3.054688 6.824219-6.828125v-136.53125c0-3.769532-3.054688-6.828125-6.824219-6.828125zm0 0"
+          />
+          <path
+            d="m314.027344 89.238281c-3.769532 0-6.828125 3.058594-6.828125 6.828125v68.265625c0 3.769531 3.058593 6.828125 6.828125 6.828125 3.769531 0 6.824218-3.058594 6.824218-6.828125v-68.265625c0-3.769531-3.054687-6.828125-6.824218-6.828125zm0 0"
+          />
+          <path
+            d="m245.761719.492188c-3.773438 0-6.828125 3.058593-6.828125 6.828124v245.757813c0 3.773437 3.054687 6.828125 6.828125 6.828125 3.769531 0 6.824219-3.054688 6.824219-6.828125v-245.757813c0-3.769531-3.054688-6.828124-6.824219-6.828124zm0 0"
+          />
+          <path
+            d="m143.359375 109.71875c-3.769531 0-6.824219 3.058594-6.824219 6.828125v27.304687c0 3.773438 3.054688 6.828126 6.824219 6.828126s6.828125-3.054688 6.828125-6.828126v-27.304687c0-3.769531-3.058594-6.828125-6.828125-6.828125zm0 0"
+          />
+          <path
+            d="m348.160156 107.433594c-3.769531 0-6.828125 3.054687-6.828125 6.824218v29.539063c0 3.769531 3.058594 6.828125 6.828125 6.828125 3.769532 0 6.828125-3.058594 6.828125-6.828125v-29.539063c0-3.769531-3.058593-6.824218-6.828125-6.824218zm0 0"
+          />
+          <path
+            d="m176.851562 94.417969c-3.773437 0-6.828124 3.054687-6.828124 6.824219v55.570312c0 3.769531 3.054687 6.828125 6.828124 6.828125 3.769532 0 6.824219-3.058594 6.824219-6.828125v-55.570312c0-3.769532-3.054687-6.824219-6.824219-6.824219zm0 0"
+          />
+        </svg>
+        <span><strong>BPM</strong> Counter</span>
+      </h1>
+    </header>
+    <main>
+      <section class="counter">
+        <div class="bpm">
+          <span id="avg">0</span>
+          <div class="bpm__taps">
+            <span id="taps">0</span>
+          </div>
+          <div class="bpm__text">beats / minute</div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <p class="copyright">Created by Zsolt Meszaros</p>
+    </footer>
+
+    <script>
+      const BPMCounter = (initialSettings = {}) => {
+        const dom = {};
+        const { precision = 1, resetTime = 2 } = initialSettings;
+        const settings = {
+          resetTime,
+          precision,
+        };
+        let count = 0;
+        let firstTapTime = 0;
+        let previousTapTime = 0;
+
+        const init = () => {
+          cacheDOM();
+          bindEvents();
+        };
+
+        const cacheDOM = () => {
+          dom.avg = document.getElementById('avg');
+          dom.bpm = document.querySelector('.bpm');
+          dom.taps = document.getElementById('taps');
+        };
+
+        const bindEvents = () => {
+          dom.bpm.addEventListener('transitionend', () => {
+            dom.bpm.classList.remove('bpm--tapped');
+          });
+          document.addEventListener('keypress', calculateBPM);
+          document.addEventListener('touchstart', calculateBPM);
+        };
+
+        const resetCounter = () => {
+          dom.avg.textContent = 0;
+          dom.taps.textContent = 0;
+        };
+
+        const calculateBPM = () => {
+          const currentTime = new Date().getTime();
+
+          dom.bpm.classList.add('bpm--tapped');
+
+          if (
+            currentTime - previousTapTime >
+            settings.resetTime * 1000
+          ) {
+            count = 0;
+          }
+
+          if (count === 0) {
+            firstTapTime = currentTime;
+            count += 1;
+
+            dom.avg.textContent = 0;
+            dom.taps.textContent = count;
+          } else {
+            const avgBPM =
+              (count * 60 * 1000) / (currentTime - firstTapTime);
+
+            count += 1;
+
+            dom.avg.textContent = avgBPM.toFixed(settings.precision);
+            dom.taps.textContent = count;
+          }
+
+          previousTapTime = currentTime;
+        };
+
+        return { init };
+      };
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const counter = BPMCounter();
+        counter.init();
+      });
+    </script>
+  </body>
+</html>
