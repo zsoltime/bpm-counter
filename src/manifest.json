@@ -1,0 +1,21 @@
+{
+  "short_name": "BPM Counter",
+  "name": "BPM Counter",
+  "background_color": "#fada65",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "orientation": "portrait",
+  "start_url": ".",
+  "theme_color": "#393939"
+}
